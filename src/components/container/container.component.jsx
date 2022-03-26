@@ -31,29 +31,31 @@ export default function Container() {
   }
 
   return (
-    <Box sx={{ backgroundColor: "pink", borderRadius: "5px", padding: "20px 70px", maxWidth: "600px", margin: "20px" }}>
-      <TextField
-        fullWidth
-        margin="normal"
-        id="filled-basic"
-        label="first name"
-        variant="filled"
-        required
-        name="fname"
-        value={name.fname}
-        onChange={fullNameHandler}
-      />
-      <TextField
-        fullWidth
-        margin="normal"
-        id="filled-basic"
-        label="last name"
-        variant="filled"
-        name="lname"
-        required
-        value={name.lname}
-        onChange={fullNameHandler}
-      />
+    <Box sx={{ background: "lightgrey", borderRadius: "5px", padding: "20px 70px", maxWidth: "600px", margin: "20px" }}>
+      <div className="flex-2">
+        <TextField
+          fullWidth
+          margin="normal"
+          id="filled-basic"
+          label="first name"
+          variant="filled"
+          required
+          name="fname"
+          value={name.fname}
+          onChange={fullNameHandler}
+        />
+        <TextField
+          fullWidth
+          margin="normal"
+          id="filled-basic"
+          label="last name"
+          variant="filled"
+          name="lname"
+          required
+          value={name.lname}
+          onChange={fullNameHandler}
+        />
+      </div>
       <TextField
         fullWidth
         margin="normal"
@@ -76,6 +78,16 @@ export default function Container() {
         required
         color={`${phoneValidate ? "success" : ""}`}
         onChange={phoneNumberHandler}
+      />
+      <TextField
+        fullWidth
+        margin="normal"
+        id="filled-basic"
+        label="Coupon Code"
+        variant="filled"
+        name="coupon"
+        type="search"
+        helperText="optional"
       />
     </Box>
   );
