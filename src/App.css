@@ -5,3 +5,9 @@
   min-height: 100vh;
   background-color: lightgrey;
 }
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: "Roboto", sans-serif;
+}
