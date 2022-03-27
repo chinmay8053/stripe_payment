@@ -11,10 +11,10 @@ export default function Container() {
   const [couponCode, setCouponCode] = useState("");
   const [phoneValidate, setPhoneValidate] = useState(false);
   const [emailValidate, setEmailValidate] = useState(false);
-  const [coupon, setCoupon] = useState([]);
+  const [coupons, setCoupons] = useState([]);
 
   useEffect(() => {
-    setCoupon([...CouponCodes.offers.filter((_, i) => i < 5)]);
+    setCoupons([...CouponCodes.offers.filter((_, i) => i < 5)]);
   }, []);
 
   function changeHandle(e) {
@@ -36,7 +36,9 @@ export default function Container() {
   }
 
   function couponHandle(e) {
-    console.log(coupon.map((cou) => console.log(cou.code)));
+    const check = coupons.filter((coupon) => couponCode === coupon.code);
+    const discount = +check[0].offervalue.slice(0, -1);
+    console.log(discount);
   }
 
   return (
@@ -135,6 +137,7 @@ export default function Container() {
           APPLY
         </Button>
       </div>
+      <h2>Total: 500/-</h2>
     </Box>
   );
 }
