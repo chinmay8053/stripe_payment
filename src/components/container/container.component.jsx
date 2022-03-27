@@ -1,46 +1,57 @@
 import "./container.styles.scss";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 import validator from "validator";
-import { couponCode } from "../../coupon-code/couponcode.array";
+import { CouponCodes } from "../../coupon-code/couponcode.array";
 
-console.log(couponCode.offers);
 export default function Container() {
-  const [name, setName] = useState({ fname: "", lname: "" });
+  const [name, setName] = useState({ fname: "", lname: "", email: "", number: "" });
+  const [couponCode, setCouponCode] = useState("");
   const [phoneValidate, setPhoneValidate] = useState(false);
   const [emailValidate, setEmailValidate] = useState(false);
+  const [coupon, setCoupon] = useState([]);
 
-  function fullNameHandler(e) {
-    setName({
-      ...name,
-      [e.target.name]: e.target.value,
-    });
-    console.log(name);
+  useEffect(() => {
+    setCoupon([...CouponCodes.offers.filter((_, i) => i < 5)]);
+  }, []);
+
+  function changeHandle(e) {
+    const target = e.target.name;
+
+    if (target === "email") {
+      const check = validator.isEmail(e.target.value);
+      setEmailValidate(check ? true : false);
+      setName({ ...name, [target]: e.target.value });
+    } else if (target === "number") {
+      const check = validator.isMobilePhone(e.target.value, ["en-IN"]);
+      setPhoneValidate(check ? true : false);
+      setName({ ...name, [target]: e.target.value });
+    } else if (target === "coupon") {
+      setCouponCode(e.target.value);
+    } else {
+      setName({ ...name, [target]: e.target.value });
+    }
   }
 
-  function phoneNumberHandler(e) {
-    console.log(e.target.value);
-    const check = validator.isMobilePhone(e.target.value, ["en-IN"]);
-    check ? setPhoneValidate(true) : setPhoneValidate(false);
-  }
-  function emailHandler(e) {
-    console.log(e.target.value);
-    const check = validator.isEmail(e.target.value);
-    console.log(check);
-    check ? setEmailValidate(true) : setEmailValidate(false);
+  function couponHandle(e) {
+    console.log(coupon.map((cou) => console.log(cou.code)));
   }
 
   return (
-    <Box sx={{ background: "lightgrey", borderRadius: "5px", padding: "20px 70px", maxWidth: "600px", margin: "20px" }}>
+    <Box
+      sx={{
+        background: "lightgrey",
+        borderRadius: "5px",
+        padding: "30px 60px",
+        maxWidth: "550px",
+        boxShadow: "5px 10px 10px rgba(0,0,0,0.2)",
+      }}
+    >
       <div className="flex-2">
         <TextField
-          // sx={{
-          //   color: "red",
-          //   "& .MuiInputLabel-root": {
-          //     color: "purple ",
-          //   },
-          // }}
+          // sx={{ color: "red", "& .MuiInputLabel-root": { color: "purple " } }}
           fullWidth
           margin="normal"
           id="filled-basic"
@@ -49,7 +60,7 @@ export default function Container() {
           required
           name="fname"
           value={name.fname}
-          onChange={fullNameHandler}
+          onChange={changeHandle}
         />
         <TextField
           fullWidth
@@ -60,10 +71,13 @@ export default function Container() {
           name="lname"
           required
           value={name.lname}
-          onChange={fullNameHandler}
+          onChange={changeHandle}
         />
       </div>
       <TextField
+        // sx={{
+        //   backgroundColor: `${emailValidate ? "rgba(0,255,9,0.1)" : ""}`,
+        // }}
         fullWidth
         margin="normal"
         id="filled-basic"
@@ -72,10 +86,14 @@ export default function Container() {
         variant="filled"
         name="email"
         required
+        value={name.email}
         color={`${emailValidate ? "success" : ""}`}
-        onChange={emailHandler}
+        onChange={changeHandle}
       />
       <TextField
+        // sx={{
+        //   backgroundColor: `${phoneValidate ? "rgba(0,255,9,0.05)" : ""}`,
+        // }}
         fullWidth
         margin="normal"
         id="filled-basic"
@@ -83,19 +101,40 @@ export default function Container() {
         variant="filled"
         name="number"
         required
+        value={name.number}
         color={`${phoneValidate ? "success" : ""}`}
-        onChange={phoneNumberHandler}
+        onChange={changeHandle}
       />
-      <TextField
-        fullWidth
-        margin="normal"
-        id="filled-basic"
-        label="Coupon Code"
-        variant="filled"
-        name="coupon"
-        type="search"
-        helperText="optional"
-      />
+      <div className="flex-2">
+        <TextField
+          fullWidth
+          margin="normal"
+          id="filled-basic"
+          label="Coupon Code"
+          variant="filled"
+          name="coupon"
+          type="search"
+          helperText="optional"
+          value={couponCode}
+          onChange={changeHandle}
+        />
+        <Button
+          sx={{
+            height: "56px",
+            marginBottom: "12px",
+            padding: "0 40px",
+            marginLeft: "5px",
+            backgroundColor: "rgba(0,0,1,0.7)",
+            "&:hover": {
+              backgroundColor: "rgba(0,0,1,0.8)",
+            },
+          }}
+          variant="contained"
+          onClick={couponHandle}
+        >
+          APPLY
+        </Button>
+      </div>
     </Box>
   );
 }

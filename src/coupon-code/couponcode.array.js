@@ -1,4 +1,4 @@
-const couponCode = {
+const CouponCodes = {
   result: true,
   offers: [
     {
@@ -410,4 +410,4 @@ const couponCode = {
   ],
 };
 
-export { couponCode };
+export { CouponCodes };
