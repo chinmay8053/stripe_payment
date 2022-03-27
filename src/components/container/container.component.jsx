@@ -37,6 +37,7 @@ export default function Container() {
 
   function couponHandle(e) {
     const check = coupons.filter((coupon) => couponCode === coupon.code);
+    if (check.length === 0) return;
     const discount = +check[0].offervalue.slice(0, -1);
     console.log(discount);
   }
@@ -126,18 +127,33 @@ export default function Container() {
             marginBottom: "12px",
             padding: "0 40px",
             marginLeft: "5px",
-            backgroundColor: "rgba(0,0,1,0.7)",
-            "&:hover": {
-              backgroundColor: "rgba(0,0,1,0.8)",
-            },
+            // backgroundColor: "rgba(0,0,1,0.7)",
+            // "&:hover": {
+            //   backgroundColor: "rgba(0,0,1,0.8)",
+            // },
           }}
-          variant="contained"
+          variant="outlined"
           onClick={couponHandle}
         >
           APPLY
         </Button>
       </div>
-      <h2>Total: 500/-</h2>
+      <Button
+        sx={{
+          // height: "56px",
+          marginBottom: "12px",
+          padding: "10px 40px",
+          marginLeft: "5px",
+          backgroundColor: "rgba(0,0,1,0.7)",
+          "&:hover": {
+            backgroundColor: "rgba(0,0,1,0.8)",
+          },
+        }}
+        fullWidth
+        variant="contained"
+      >
+        Pay ₹ 350
+      </Button>
     </Box>
   );
 }
