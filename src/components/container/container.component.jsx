@@ -1,10 +1,11 @@
+import "./container.styles.scss";
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import validator from "validator";
+import { couponCode } from "../../coupon-code/couponcode.array";
 
-import "./container.styles.scss";
-
+console.log(couponCode.offers);
 export default function Container() {
   const [name, setName] = useState({ fname: "", lname: "" });
   const [phoneValidate, setPhoneValidate] = useState(false);
@@ -34,6 +35,12 @@ export default function Container() {
     <Box sx={{ background: "lightgrey", borderRadius: "5px", padding: "20px 70px", maxWidth: "600px", margin: "20px" }}>
       <div className="flex-2">
         <TextField
+          // sx={{
+          //   color: "red",
+          //   "& .MuiInputLabel-root": {
+          //     color: "purple ",
+          //   },
+          // }}
           fullWidth
           margin="normal"
           id="filled-basic"
