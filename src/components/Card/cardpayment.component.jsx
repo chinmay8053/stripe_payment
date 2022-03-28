@@ -3,10 +3,12 @@ import { Button } from "@mui/material";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardElement } from "@stripe/react-stripe-js";
 
-export default function CardPayment() {
-  const stripePayment = loadStripe(
-    "pk_test_51KhsKnSJ4B1kEgNuhb48p6mjauhuhnZASi6fepCPSl4v6yTm7Ue9JrMflsX72bSmzXBlzXfZTSoR0XnHQWxSUKnI00NmVOZg0b"
-  );
+const stripePayment = loadStripe(
+  "pk_test_51KhsKnSJ4B1kEgNuhb48p6mjauhuhnZASi6fepCPSl4v6yTm7Ue9JrMflsX72bSmzXBlzXfZTSoR0XnHQWxSUKnI00NmVOZg0b"
+);
+export default function CardPayment({ offer }) {
+  console.log(offer);
+
   return (
     <div>
       <h2>Payment</h2>
@@ -27,7 +29,7 @@ export default function CardPayment() {
           fullWidth
           variant="contained"
         >
-          Pay ₹ 350
+          Pay ₹ {offer}
         </Button>
       </form>
     </div>

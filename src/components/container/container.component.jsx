@@ -12,8 +12,9 @@ export default function Container() {
   const [couponCode, setCouponCode] = useState("");
   const [phoneValidate, setPhoneValidate] = useState(false);
   const [emailValidate, setEmailValidate] = useState(false);
-  const [offerValidate, setOfferValidate] = useState({ offerValue: "", offerState: false });
+  const [offerValidate, setOfferValidate] = useState({ offerValue: 0, offerState: false });
   const [coupons, setCoupons] = useState([]);
+  const [totalAmt, setTotalAmt] = useState(500);
 
   useEffect(() => {
     setCoupons([...CouponCodes.offers.filter((_, i) => i < 5)]);
@@ -43,7 +44,7 @@ export default function Container() {
     if (check.length === 0) return;
     const discount = +check[0].offervalue.slice(0, -1);
     setOfferValidate({ offerValue: discount, offerState: true });
-    console.log(discount);
+    setTotalAmt(totalAmt * (1 - discount / 100));
   }
 
   return (
@@ -140,7 +141,7 @@ export default function Container() {
       </div>
       {offerValidate.offerState ? <p className="offer">you got {offerValidate.offerValue}% off</p> : ""}
 
-      <CardPayment />
+      <CardPayment offer={totalAmt} />
     </Box>
   );
 }
