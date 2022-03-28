@@ -5,12 +5,14 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import validator from "validator";
 import { CouponCodes } from "../../coupon-code/couponcode.array";
+import CardPayment from "../Card/cardpayment.component";
 
 export default function Container() {
   const [name, setName] = useState({ fname: "", lname: "", email: "", number: "" });
   const [couponCode, setCouponCode] = useState("");
   const [phoneValidate, setPhoneValidate] = useState(false);
   const [emailValidate, setEmailValidate] = useState(false);
+  const [offerValidate, setOfferValidate] = useState({ offerValue: "", offerState: false });
   const [coupons, setCoupons] = useState([]);
 
   useEffect(() => {
@@ -37,8 +39,10 @@ export default function Container() {
 
   function couponHandle(e) {
     const check = coupons.filter((coupon) => couponCode === coupon.code);
+    setOfferValidate({ ...offerValidate, offerState: false });
     if (check.length === 0) return;
     const discount = +check[0].offervalue.slice(0, -1);
+    setOfferValidate({ offerValue: discount, offerState: true });
     console.log(discount);
   }
 
@@ -54,9 +58,8 @@ export default function Container() {
     >
       <div className="flex-2">
         <TextField
-          // sx={{ color: "red", "& .MuiInputLabel-root": { color: "purple " } }}
           fullWidth
-          margin="normal"
+          margin="dense"
           id="filled-basic"
           label="first name"
           variant="filled"
@@ -67,7 +70,7 @@ export default function Container() {
         />
         <TextField
           fullWidth
-          margin="normal"
+          margin="dense"
           id="filled-basic"
           label="last name"
           variant="filled"
@@ -78,11 +81,8 @@ export default function Container() {
         />
       </div>
       <TextField
-        // sx={{
-        //   backgroundColor: `${emailValidate ? "rgba(0,255,9,0.1)" : ""}`,
-        // }}
         fullWidth
-        margin="normal"
+        margin="dense"
         id="filled-basic"
         label="email"
         type="email"
@@ -94,11 +94,8 @@ export default function Container() {
         onChange={changeHandle}
       />
       <TextField
-        // sx={{
-        //   backgroundColor: `${phoneValidate ? "rgba(0,255,9,0.05)" : ""}`,
-        // }}
         fullWidth
-        margin="normal"
+        margin="dense"
         id="filled-basic"
         label="phone number"
         variant="filled"
@@ -111,26 +108,29 @@ export default function Container() {
       <div className="flex-2">
         <TextField
           fullWidth
-          margin="normal"
+          margin="dense"
           id="filled-basic"
           label="Coupon Code"
           variant="filled"
           name="coupon"
           type="search"
           helperText="optional"
+          color={`${offerValidate.offerState ? "success" : ""}`}
           value={couponCode}
           onChange={changeHandle}
         />
         <Button
           sx={{
             height: "56px",
-            marginBottom: "12px",
+            marginBottom: "16px",
             padding: "0 40px",
             marginLeft: "5px",
-            // backgroundColor: "rgba(0,0,1,0.7)",
-            // "&:hover": {
-            //   backgroundColor: "rgba(0,0,1,0.8)",
-            // },
+            border: "1px solid black",
+            color: "rgba(0,0,1,0.7)",
+            "&:hover": {
+              border: "1px solid black",
+              color: "rgba(0,0,1,0.8)",
+            },
           }}
           variant="outlined"
           onClick={couponHandle}
@@ -138,22 +138,9 @@ export default function Container() {
           APPLY
         </Button>
       </div>
-      <Button
-        sx={{
-          // height: "56px",
-          marginBottom: "12px",
-          padding: "10px 40px",
-          marginLeft: "5px",
-          backgroundColor: "rgba(0,0,1,0.7)",
-          "&:hover": {
-            backgroundColor: "rgba(0,0,1,0.8)",
-          },
-        }}
-        fullWidth
-        variant="contained"
-      >
-        Pay ₹ 350
-      </Button>
+      {offerValidate.offerState ? <p className="offer">you got {offerValidate.offerValue}% off</p> : ""}
+
+      <CardPayment />
     </Box>
   );
 }

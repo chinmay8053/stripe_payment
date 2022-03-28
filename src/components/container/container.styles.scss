@@ -9,3 +9,17 @@
   gap: 7px;
   align-items: center;
 }
+.flex-2-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.offer {
+  color: green;
+  font-size: large;
+  position: relative;
+  top: -15px;
+  right: 5px;
+  margin: 0;
+  text-align: right;
+}
